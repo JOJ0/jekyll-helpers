@@ -1,6 +1,6 @@
 #!/bin/bash
 # generate thumbnails, execute in jekyll _rootdir_
-IMG_PATH=images/2018-1-15-mpc-service
+IMG_PATH=images/2017-9-24-das-adhs-7-seg
 IMG_TYPE=jpg
 CONV_OPTS="-resize 222"
 
