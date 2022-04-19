@@ -1,8 +1,8 @@
 #!/bin/bash
 # generate markdown files for jekyll collection,
 # execute from jekyll _rootdir_
-COLL_PATH=_das-adhs-7-seg
-IMG_PATH=images/2017-9-24-das-adhs-7-seg
+COLL_PATH=_charger-tape
+IMG_PATH=images/2018-11-3-charger-tape
 IMG_TYPE=jpg
 
 #set -x
