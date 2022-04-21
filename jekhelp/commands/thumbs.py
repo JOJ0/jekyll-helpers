@@ -1,6 +1,7 @@
 """thumbs subcommand module
 """
 import click
+from jekhelp.config import valid_conf
 
 
 @click.command()
@@ -12,3 +13,7 @@ def thumbs(name):
     project.
     """
     click.echo(f'Hello {name}')
+
+    print("in cli thumbs command, config data:")
+    print(valid_conf.site_root)
+    print(valid_conf.images_dir)

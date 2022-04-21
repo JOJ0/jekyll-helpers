@@ -6,7 +6,6 @@ import click
 import confuse
 import pprint
 
-from jekhelp import config
 from jekhelp import commands
 
 __author__ = """J0J0"""
