@@ -4,6 +4,7 @@ import click
 from pathlib import Path
 # from shutil import copy2
 from subprocess import run
+import yaml
 
 from jekhelp.config import valid_conf
 
@@ -15,7 +16,9 @@ from jekhelp.config import valid_conf
               help="Do the conversion. Dry-run is default.")
 @click.option('--force', '-f', is_flag=True,
               help="Overwrite if existing already.")
-def thumbs(source_image, post_md_file, write, force):
+@click.option('--gallery', '-g', type=str,
+              help="Create collection markdown files for photo gallery as well.")
+def thumbs(source_image, post_md_file, write, force, gallery):
     """
     Generate thumbnail and full-size pics from a list of pictures,
     rename and put them into a subfolder of a the images directory of a Jekyll
@@ -49,9 +52,50 @@ def thumbs(source_image, post_md_file, write, force):
         click.echo(task)
         run(convert) if doit else None
 
+
+    def collection_file(coll_dir, fullsize_img_path):
+        """
+        Generate one collection file referencing the passed image file.
+        """
+        md_file = Path(collection_dir / f"{fullsize_img_path.stem}.md")
+        coll_dir.mkdir() if not coll_dir.is_dir() else None
+        doit = False
+
+        if md_file.exists():
+            if write and force:
+                task = f"Write (force): {md_file}"
+                doit = True
+            else:
+                task = f"Existing: {md_file}"
+        else:
+            if write:
+                task = f"Write: {md_file}"
+                doit = True
+            else:
+                task = f"Dry-run: {md_file}"
+
+        click.echo(task)
+
+        if doit:
+            with open (md_file, 'w')  as md:
+                yaml.dump_all(
+                    [{
+                        'title': fullsize_img_path.stem,
+                        'image-path': fullsize_img_path.as_posix(),
+                        'caption': ''
+                    },
+                    {}],
+                    md, default_flow_style=False, allow_unicode=True,
+                    explicit_start=True
+                )
+
     post_name = Path(post_md_file).stem
     post_img_dir = Path(valid_conf.images_dir / post_name)
     post_img_dir.mkdir() if not post_img_dir.is_dir() else None
+
+    if gallery:
+        gallery = f"_{gallery}" if gallery[:1] != "_" else gallery
+        collection_dir = valid_conf.site_root / gallery
 
     p_cnt = 1
     for image in source_image:
@@ -61,4 +105,6 @@ def thumbs(source_image, post_md_file, write, force):
         thumb = Path(post_img_dir / f"{p_cnt}-th{ext}")
         decide_and_copy(orig, full, is_thumb=False)
         decide_and_copy(orig, thumb, is_thumb=True)
+        if gallery:
+            collection_file(collection_dir, full)
         p_cnt += p_cnt
