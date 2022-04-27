@@ -77,11 +77,15 @@ def thumbs(source_image, post_md_file, write, force, gallery):
         click.echo(task)
 
         if doit:
+            image_path_relative = fullsize_img_path.as_posix().replace(
+                valid_conf.images_dir.parent.as_posix(), ""
+            )
+
             with open (md_file, 'w')  as md:
                 yaml.dump_all(
                     [{
                         'title': fullsize_img_path.stem,
-                        'image-path': fullsize_img_path.as_posix(),
+                        'image-path': image_path_relative,
                         'caption': ''
                     },
                     {}],
