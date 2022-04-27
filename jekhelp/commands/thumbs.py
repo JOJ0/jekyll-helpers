@@ -111,4 +111,4 @@ def thumbs(source_image, post_md_file, write, force, gallery):
         decide_and_copy(orig, thumb, is_thumb=True)
         if gallery:
             collection_file(collection_dir, full)
-        p_cnt += p_cnt
+        p_cnt += 1
