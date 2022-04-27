@@ -82,15 +82,14 @@ def thumbs(source_image, post_md_file, write, force, gallery):
             )
 
             with open (md_file, 'w')  as md:
-                yaml.dump_all(
-                    [{
+                yaml.dump(
+                    {
                         'title': fullsize_img_path.stem,
                         'image-path': image_path_relative,
                         'caption': ''
                     },
-                    {}],
                     md, default_flow_style=False, allow_unicode=True,
-                    explicit_start=True
+                    explicit_start=True, explicit_end=True
                 )
 
     post_name = Path(post_md_file).stem
