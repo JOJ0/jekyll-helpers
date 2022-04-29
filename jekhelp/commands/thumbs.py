@@ -104,8 +104,9 @@ def thumbs(source_image, post_md_file, write, force, gallery):
     for image in source_image:
         orig = Path(image)
         ext = orig.suffix
-        full = Path(post_img_dir / f"{p_cnt}{ext}")
-        thumb = Path(post_img_dir / f"{p_cnt}-th{ext}")
+        zfill_cnt = str(p_cnt).zfill(2)
+        full = post_img_dir /  f"{zfill_cnt}{ext}"
+        thumb = post_img_dir /  f"{zfill_cnt}-th{ext}"
         decide_and_copy(orig, full, is_thumb=False)
         decide_and_copy(orig, thumb, is_thumb=True)
         if gallery:
