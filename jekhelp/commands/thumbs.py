@@ -18,7 +18,9 @@ from jekhelp.config import valid_conf
               help="Overwrite if existing already.")
 @click.option('--gallery', '-g', type=str,
               help="Create collection markdown files for photo gallery as well.")
-def thumbs(source_image, post_md_file, write, force, gallery):
+@click.option('--start', '-s', type=int, default=1, show_default=True,
+              help="Start naming pics and gallery files with this number.")
+def thumbs(source_image, post_md_file, write, force, gallery, start):
     """
     Generate thumbnail and full-size pics from a list of pictures,
     rename and put them into a subfolder of a the images directory of a Jekyll
@@ -100,7 +102,7 @@ def thumbs(source_image, post_md_file, write, force, gallery):
         gallery = f"_{gallery}" if gallery[:1] != "_" else gallery
         collection_dir = valid_conf.site_root / gallery
 
-    p_cnt = 1
+    p_cnt = start
     for image in source_image:
         orig = Path(image)
         ext = orig.suffix
