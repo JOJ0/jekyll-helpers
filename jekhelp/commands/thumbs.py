@@ -17,7 +17,7 @@ from jekhelp.config import valid_conf
 @click.option('--force', '-f', is_flag=True,
               help="Overwrite if existing already.")
 @click.option('--gallery', '-g', type=str,
-              help="Create collection markdown files for photo gallery as well.")
+              help="Create collection markdown files for photo gallery as well.")  # noqa
 @click.option('--start', '-s', type=int, default=1, show_default=True,
               help="Start naming pics and gallery files with this number.")
 def thumbs(source_image, post_md_file, write, force, gallery, start):
@@ -54,7 +54,6 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
         click.echo(task)
         run(convert) if doit else None
 
-
     def collection_file(coll_dir, fullsize_img_path):
         """
         Generate one collection file referencing the passed image file.
@@ -83,7 +82,7 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
                 valid_conf.images_dir.parent.as_posix(), ""
             )
 
-            with open (md_file, 'w')  as md:
+            with open(md_file, 'w') as md:
                 yaml.dump(
                     {
                         'title': fullsize_img_path.stem,
@@ -107,8 +106,8 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
         orig = Path(image)
         ext = orig.suffix
         zfill_cnt = str(p_cnt).zfill(2)
-        full = post_img_dir /  f"{zfill_cnt}{ext}"
-        thumb = post_img_dir /  f"{zfill_cnt}-th{ext}"
+        full = post_img_dir / f"{zfill_cnt}{ext}"
+        thumb = post_img_dir / f"{zfill_cnt}-th{ext}"
         decide_and_copy(orig, full, is_thumb=False)
         decide_and_copy(orig, thumb, is_thumb=True)
         if gallery:
