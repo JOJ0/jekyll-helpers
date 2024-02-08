@@ -23,7 +23,7 @@ from jekhelp.config import valid_conf
 def thumbs(source_image, post_md_file, write, force, gallery, start):
     """
     Generate thumbnail and full-size pics from a list of pictures,
-    rename and put them into a subfolder of a the images directory of a Jekyll
+    rename and put them into a subfolder of the images directory of a Jekyll
     project.
     """
     def decide_and_copy(source, target, is_thumb):
