@@ -3,8 +3,8 @@
 import click
 from pathlib import Path
 # from shutil import copy2
-from subprocess import run
 import yaml
+from PIL import Image
 
 from jekhelp.config import valid_conf
 
@@ -35,9 +35,13 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
         doit = False
 
         if is_thumb:
-            convert = ['convert', '-resize', '333', orig, thumb]
+            # convert = ['convert', '-resize', '333', orig, thumb]
+            size = (333, 333)
+            thumb_or_full = thumb
         else:
-            convert = ['convert', '-resize', '1280', orig, full]
+            # convert = ['convert', '-resize', '1280', orig, full]
+            size = (1280, 1280)
+            thumb_or_full = full
 
         if target.exists():
             if write and force:
@@ -53,7 +57,11 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
                 task = f"Dry-run: {orig_target}"
 
         click.echo(task)
-        run(convert) if doit else None
+
+        if doit:
+            with Image.open(source) as im:
+                im.thumbnail(size)
+                im.save(thumb_or_full, "JPEG")
 
     def collection_file(coll_dir, fullsize_img_path):
         """ Generate one collection file referencing the passed image file.
@@ -103,6 +111,8 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
 
     p_cnt = start
     for image in source_image:
+        if Path(image).is_dir():
+            continue
         orig = Path(image)
         ext = orig.suffix
         zfill_cnt = str(p_cnt).zfill(2)
