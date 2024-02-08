@@ -21,10 +21,11 @@ from jekhelp.config import valid_conf
 @click.option('--start', '-s', type=int, default=1, show_default=True,
               help="Start naming pics and gallery files with this number.")
 def thumbs(source_image, post_md_file, write, force, gallery, start):
-    """
-    Generate thumbnail and full-size pics from a list of pictures,
-    rename and put them into a subfolder of the images directory of a Jekyll
-    project.
+    """ Generate a Jekyll picture gallery
+
+    Create thumbnail and full-size pics from a list of pictures, rename
+    them, file them into the project's images dir, optionally generate picture
+    collection Markdown files.
     """
     def decide_and_copy(source, target, is_thumb):
         """
@@ -55,8 +56,7 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
         run(convert) if doit else None
 
     def collection_file(coll_dir, fullsize_img_path):
-        """
-        Generate one collection file referencing the passed image file.
+        """ Generate one collection file referencing the passed image file.
         """
         md_file = Path(collection_dir / f"{fullsize_img_path.stem}.md")
         coll_dir.mkdir() if not coll_dir.is_dir() else None
