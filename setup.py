@@ -8,11 +8,12 @@ from setuptools import setup, find_packages
 requirements = [
     'Click>=6.0',
     'confuse',
+    'pillow',
 ]
 
 setup(
     name='jekhelp',
-    version='0.1.0',
+    version='0.1.1',
     description="Jekyll Helpers",
 #    long_description=readme,
     author="J0J0",
@@ -36,8 +37,10 @@ setup(
     classifiers=[
         'Intended Audience :: Developers',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
     ]
 )
