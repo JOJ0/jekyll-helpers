@@ -60,8 +60,9 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
 
         if doit:
             with Image.open(source) as im:
-                im.thumbnail(size)
-                im.save(thumb_or_full, "JPEG")
+                rgb_im = im.convert("RGB")  # in case it's PNG, convert it
+                rgb_im.thumbnail(size)
+                rgb_im.save(thumb_or_full, "JPEG")
 
     def collection_file(coll_dir, fullsize_img_path):
         """ Generate one collection file referencing the passed image file.
@@ -114,7 +115,7 @@ def thumbs(source_image, post_md_file, write, force, gallery, start):
         if Path(image).is_dir():
             continue
         orig = Path(image)
-        ext = orig.suffix
+        ext = ".jpg"  # we always convert and save as jpg
         zfill_cnt = str(p_cnt).zfill(2)
         full = post_img_dir / f"{zfill_cnt}{ext}"
         thumb = post_img_dir / f"{zfill_cnt}-th{ext}"
